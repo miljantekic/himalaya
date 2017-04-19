@@ -11,11 +11,11 @@ const voidTags = [
   'meta', 'param', 'source', 'track', 'wbr'
 ]
 
-function serializeAttr (attr, value, isXml) {
-  if (!isXml && attr === value) return attr
+function serializeAttr (attr, value, isXml, allowSameValue) {
+  if (!isXml && !allowSameValue && attr === value) return attr
   const text = value.toString()
   const quoteEscape = text.indexOf('\'') !== -1
-  const quote = quoteEscape ? '"' : '\''
+  const quote = quoteEscape ? '"' : '"'
   return attr + '=' + quote + text + quote
 }
 
@@ -48,7 +48,7 @@ function toHTML (tree, options = htmlDefaults) {
       if (attr === 'dataset') {
         for (const prop in val) {
           const key = 'data-' + dasherize(prop)
-          tag += ' ' + serializeAttr(key, val[prop], isXml)
+          tag += ' ' + serializeAttr(key, val[prop], isXml, options.allowSameValue)
         }
         continue
       }
@@ -63,7 +63,7 @@ function toHTML (tree, options = htmlDefaults) {
         continue
       }
 
-      tag += ' ' + serializeAttr(dasherize(attr), val, isXml)
+      tag += ' ' + serializeAttr(dasherize(attr), val, isXml, options.allowSameValue)
     }
 
     tag += '>'
