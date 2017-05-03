@@ -54,7 +54,7 @@ export function splitHead (str, sep) {
 export function formatAttributes (attributes) {
   return attributes.reduce((attrs, pair) => {
     let [key, value] = splitHead(pair.trim(), '=')
-    value = value ? unquote(value) : key
+    value = value ? unquote(value) : ''
     if (key === 'class') {
       attrs.className = value.split(' ')
     } else if (key === 'style') {

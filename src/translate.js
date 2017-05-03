@@ -12,7 +12,7 @@ const voidTags = [
 ]
 
 function serializeAttr (attr, value, isXml, allowSameValue) {
-  if (!isXml && !allowSameValue && attr === value) return attr
+  if ((!isXml && !allowSameValue && attr === value) || value === '') return attr
   const text = value.toString()
   const quoteEscape = text.indexOf('\'') !== -1
   const quote = quoteEscape ? '"' : '"'
